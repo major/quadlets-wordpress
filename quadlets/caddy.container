@@ -1,0 +1,22 @@
+[Unit]
+Description=Caddy Quadlet
+
+[Container]
+Image=docker.io/library/caddy:latest
+ContainerName=caddy
+AutoUpdate=registry
+EnvironmentFile=/home/core/.config/containers/containers-environment
+Volume=caddy-data.volume:/data
+Volume=caddy-config.volume:/config
+Volume=/home/core/.config/caddy/Caddyfile:/etc/caddy/Caddyfile:Z
+Volume=wordpress.volume:/var/www/html
+PublishPort=80:80
+PublishPort=443:443
+Network=wordpress.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

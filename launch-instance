@@ -1,0 +1,10 @@
+#!/bin/bash
+# This command starts up a CoreOS instance on Vultr using the vultr-cli
+vultr-cli instance create \
+    --os 391 \
+    --plan vhp-1c-1gb-amd \
+    --region dfw \
+    --notify true \
+    --ipv6 true \
+    -u "$(butane --files-dir . config.butane)" \
+    -l "coreos-$(date "+%s")"

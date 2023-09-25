@@ -1,0 +1,17 @@
+[Unit]
+Description=Wordpress Quadlet
+
+[Container]
+Image=docker.io/library/wordpress:fpm
+ContainerName=wordpress
+AutoUpdate=registry
+EnvironmentFile=/home/core/.config/containers/containers-environment
+Volume=wordpress.volume:/var/www/html
+Network=wordpress.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=caddy.service multi-user.target default.target

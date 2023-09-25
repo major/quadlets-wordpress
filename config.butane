@@ -1,0 +1,111 @@
+variant: fcos
+version: 1.5.0
+passwd:
+  users:
+    - name: core
+      groups:
+        - wheel
+        - sudo
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDyoH6gU4lgEiSiwihyD0Rxk/o5xYIfA3stVDgOGM9N0
+storage:
+  links:
+    - path: /home/core/.config/systemd/user/timers.target.wants/podman-auto-update.timer
+      target: /usr/lib/systemd/user/podman-auto-update.timer
+      user:
+        name: core
+      group:
+        name: core
+  files:
+    - path: /var/lib/systemd/linger/core
+      mode: 0644
+    - path: /etc/sysctl.d/90-caddy.conf
+      contents:
+        inline: |
+          net.ipv4.ip_unprivileged_port_start = 80
+          net.core.rmem_max=2500000
+          net.core.wmem_max=2500000
+    - path: /home/core/.config/containers/containers-environment
+      contents:
+        inline: |
+          MYSQL_DATABASE=wordpress
+          MYSQL_USER=wordpress
+          MYSQL_ROOT_PASSWORD=mariadb-needs-a-secure-password
+          MYSQL_PASSWORD=wordpress-needs-a-secure-password
+          WORDPRESS_DB_HOST=mariadb
+          WORDPRESS_DB_USER=wordpress
+          WORDPRESS_DB_PASSWORD=wordpress-needs-a-secure-password
+          WORDPRESS_DB_NAME=wordpress
+      mode: 0644
+
+    - path: /home/core/.config/caddy/Caddyfile
+      contents:
+        local: caddy/Caddyfile
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/caddy-config.volume
+      contents:
+        inline: |
+          [Volume]
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/containers/systemd/caddy-data.volume
+      contents:
+        inline: |
+          [Volume]
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/wordpress.volume
+      contents:
+        inline: |
+          [Volume]
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/wordpress.network
+      contents:
+        inline: |
+          [Network]
+          DisableDNS=false
+          Internal=false
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/mariadb.container
+      contents:
+        local: quadlets/mariadb.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/containers/systemd/wordpress.container
+      contents:
+        local: quadlets/wordpress.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/caddy.container
+      contents:
+        local: quadlets/caddy.container
+      mode: 0644
+      user:
+        name: core
+      group:
+        name: core

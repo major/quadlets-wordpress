@@ -1,0 +1,17 @@
+[Unit]
+Description=MariaDB Quadlet
+
+[Container]
+Image=docker.io/library/mariadb:11
+ContainerName=mariadb
+AutoUpdate=registry
+EnvironmentFile=/home/core/.config/containers/containers-environment
+Volume=mariadb.volume:/var/lib/mysql
+Network=wordpress.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=wordpress.service multi-user.target default.target

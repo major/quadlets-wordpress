@@ -1,0 +1,26 @@
+{
+    email username@example.domain
+}
+
+:80, :443 {
+    root * /var/www/html
+    encode zstd gzip
+    file_server
+
+    @cache {
+        not header_regexp Cookie "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in"
+        not path_regexp "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php|wp-.*.php|/feed/|index.php|wp-comments-popup.php|wp-links-opml.php|wp-locations.php|sitemap(index)?.xml|[a-z0-9-]+-sitemap([0-9]+)?.xml)"
+        not method POST
+        not expression {query} != ''
+    }
+
+    route @cache {
+        try_files /wp-content/cache/supercache/{host}{uri}/index-https.html /wp-content/cache/supercache/{host}{uri}/index.html {path} {path}/index.php?{query}
+    }
+       
+    php_fastcgi wordpress:9000
+    log {
+        output stderr
+        format console
+    }
+}
