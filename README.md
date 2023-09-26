@@ -1,5 +1,9 @@
 # Wordpress via Podman Quadlets on CoreOS
 
+📝 Read the [full blog post] that explains everything here!
+
+[full blog post]: https://major.io/p/quadlets-replace-docker-compose/
+
 The goal here is to launch a very minimal [Wordpress] stack using [quadlets] on [Fedora
 CoreOS] via [VULTR] that updates itself and self-heals when a container exits
 unexpectedly. Configurations are deployed via [ignition] using a [butane] configuration
