@@ -1,6 +1,6 @@
 # Wordpress via Podman Quadlets on CoreOS
 
-📝 Read the [full blog post] that explains everything here!
+📝 **Read the [full blog post] that explains everything here!**
 
 [full blog post]: https://major.io/p/quadlets-replace-docker-compose/
 
