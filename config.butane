@@ -6,6 +6,37 @@ passwd:
       ssh_authorized_keys:
         - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDyoH6gU4lgEiSiwihyD0Rxk/o5xYIfA3stVDgOGM9N0
 storage:
+  directories:
+    - path: /home/core/.config
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/containers
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/containers/systemd
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/caddy
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/systemd
+      user:
+        name: core
+      group:
+        name: core
+    - path: /home/core/.config/systemd/user
+      user:
+        name: core
+      group:
+        name: core
   links:
     - path: /home/core/.config/systemd/user/timers.target.wants/podman-auto-update.timer
       target: /usr/lib/systemd/user/podman-auto-update.timer
@@ -14,6 +45,9 @@ storage:
       group:
         name: core
   files:
+    - path: /etc/systemd/user/podman-user-wait-network-online.service
+      contents:
+        local: services/podman-user-wait-network-online.service
     - path: /var/lib/systemd/linger/core
       mode: 0644
     - path: /etc/sysctl.d/90-caddy.conf
@@ -62,6 +96,15 @@ storage:
         name: core
 
     - path: /home/core/.config/containers/systemd/wordpress.volume
+      contents:
+        inline: |
+          [Volume]
+      user:
+        name: core
+      group:
+        name: core
+
+    - path: /home/core/.config/containers/systemd/mariadb.volume
       contents:
         inline: |
           [Volume]
